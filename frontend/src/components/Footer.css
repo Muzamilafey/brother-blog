@@ -1,0 +1,73 @@
+.footer {
+  padding: 30px 20px;
+  background-color: #000000;
+  color: #fff;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+.footer p {
+  margin: 0 0 15px 0;
+  font-size: 14px;
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 16px;
+  padding: 8px 14px;
+  background-color: #333;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: transform 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.social-links a i {
+  font-size: 20px;
+}
+
+/* Hover Colors for Brand Recognition */
+.social-links a:hover {
+  transform: scale(1.05);
+}
+
+.social-links a[href*="twitter"]:hover {
+  background-color: #1da1f2;
+}
+
+.social-links a[href*="facebook"]:hover {
+  background-color: #1877f2;
+}
+
+.social-links a[href*="instagram"]:hover {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+
+.social-links a[href*="github"]:hover {
+  background-color: #333;
+}
+
+.social-links a[href*="linkedin"]:hover {
+  background-color: #0a66c2;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .social-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .social-links a {
+    justify-content: center;
+  }
+}

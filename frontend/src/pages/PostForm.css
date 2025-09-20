@@ -1,0 +1,108 @@
+.postform-container {
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #121212;
+  color: #f0f0f0;
+  font-family: 'Courier New', Courier, monospace;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 255, 153, 0.2);
+}
+
+.postform-box h1 {
+  text-align: center;
+  color: #00ff99;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px #00ff99;
+}
+
+.error-message {
+  color: #ff5555;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+/* Input groups with floating labels */
+.input-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 12px 12px 12px 10px;
+  background: #1a1a1a;
+  color: #f0f0f0;
+  border: 2px solid #333;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s all;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: #00ff99;
+  box-shadow: 0 0 8px rgba(0, 255, 153, 0.5);
+}
+
+.input-group label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #777;
+  pointer-events: none;
+  transition: 0.3s all;
+  font-size: 0.9rem;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label,
+.input-group textarea:focus + label,
+.input-group textarea:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 10px;
+  font-size: 0.75rem;
+  color: #00ff99;
+  background: #121212;
+  padding: 0 5px;
+}
+
+/* File input styling */
+.file-input input[type="file"] {
+  padding: 5px;
+  border: 2px solid #333;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: #f0f0f0;
+}
+
+/* Submit button */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #00ff99;
+  color: #0e0e0e;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+}
+
+.submit-btn:hover {
+  background: #00cc7a;
+  box-shadow: 0 0 10px rgba(0, 255, 153, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .postform-container {
+    padding: 1.5rem;
+  }
+}
+
+

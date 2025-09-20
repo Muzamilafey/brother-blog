@@ -1,0 +1,162 @@
+/* Container */
+.dashboard-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #121212;
+  color: #f0f0f0;
+  font-family: 'Courier New', Courier, monospace;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 255, 153, 0.2);
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  color: #00ff99;
+  font-size: 2rem;
+  text-shadow: 0 0 8px #00ff99;
+}
+
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.logged-in-user {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn.logout {
+  background: #ff5555;
+  color: #fff;
+  width: 150px;
+}
+
+.btn.logout:hover {
+  background: #ff2222;
+  box-shadow: 0 0 8px rgba(255, 85, 85, 0.5);
+}
+
+.btn.create {
+  background: #00ff99;
+  color: #0e0e0e;
+}
+
+.btn.create:hover {
+  background: #00cc7a;
+  box-shadow: 0 0 8px rgba(0, 255, 153, 0.5);
+}
+
+.btn.edit {
+  background: #ffaa00;
+  color: #0e0e0e;
+  width: 150px;
+  left: 0px;
+  position: relative;
+}
+
+.btn.edit:hover {
+  background: #ff8800;
+  box-shadow: 0 0 8px rgba(255, 170, 0, 0.5);
+}
+
+.btn.delete {
+  background: #ff5555;
+  color: #fff;
+  margin-left: 0.3rem;
+  width: 150px;
+}
+
+.btn.delete:hover {
+  background: #ff2222;
+  box-shadow: 0 0 8px rgba(255, 85, 85, 0.5);
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 255, 153, 0.1);
+}
+
+thead {
+  background: #00ff99;
+  color: #0e0e0e;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+tbody tr {
+  border-bottom: 1px solid #333;
+  transition: background 0.2s, transform 0.2s;
+}
+
+tbody tr:hover {
+  background: #222;
+  transform: translateX(2px);
+}
+
+td button, td a {
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+  }
+
+  th, td {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+}
