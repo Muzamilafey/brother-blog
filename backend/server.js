@@ -25,21 +25,24 @@ app.use(express.json());
 // ✅ Serve static uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
+
+// Optional: fallback route for testing images
+app.get("/uploads/:filename", (req, res) => {
+  res.sendFile(path.join(__dirname, "uploads", req.params.filename), (err) => {
+    if (err) res.status(404).send("File not found");
+  });
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/contact", contactRoutes);
 
-// ✅ Serve frontend (React build)
-app.use(express.static(path.join(__dirname, "../frontend/build")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
-});
-
-// MongoDB connection + start server
 const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
+// MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
