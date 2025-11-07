@@ -56,6 +56,16 @@
   line-height: 1.6;
 }
 
+/* Preserve exact pasted formatting while allowing wrapping */
+.blog-content {
+  white-space: pre-wrap; /* preserves newlines and spaces */
+  word-wrap: break-word; /* allow long lines to wrap */
+  overflow-wrap: anywhere;
+  background: #0f0f0f;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
 .blog-tags {
   margin-top: 1rem;
   font-size: 0.9rem;

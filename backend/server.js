@@ -25,31 +25,50 @@ app.use(express.json());
 // ✅ Serve static uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
-
-// Optional: fallback route for testing images
-app.get("/uploads/:filename", (req, res) => {
-  res.sendFile(path.join(__dirname, "uploads", req.params.filename), (err) => {
-    if (err) res.status(404).send("File not found");
-  });
-});
-
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/contact", contactRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// ✅ Serve frontend (React build)
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-// MongoDB connection
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
+
+// MongoDB connection + start server
+const PORT = process.env.PORT || 5000;
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    app.listen(PORT, () =>
-      console.log(`✅ Server running on http://localhost:${PORT}`)
-    );
+    const server = app.listen(PORT, () => {
+      console.log(`✅ Server running on http://localhost:${PORT}`);
+    });
+
+    // Handle server 'error' events (e.g., EADDRINUSE)
+    server.on("error", (err) => {
+      if (err && err.code === "EADDRINUSE") {
+        console.error(`❌ Port ${PORT} already in use. Exiting.`);
+        // Exit with non-zero code so process managers detect failure
+        process.exit(1);
+      }
+      console.error("❌ Server error:", err);
+      process.exit(1);
+    });
   })
   .catch((err) => {
     console.error("❌ MongoDB connection error:", err);
   });
+
+// Graceful logging for uncaught exceptions / unhandled rejections
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught exception:", err);
+  process.exit(1);
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled promise rejection:", reason);
+  process.exit(1);
+});

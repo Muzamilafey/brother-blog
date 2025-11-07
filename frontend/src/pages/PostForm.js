@@ -32,7 +32,7 @@ const PostForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (!formData.title.trim() || !formData.content.trim()) {
+    if (formData.title.length === 0 || formData.content.length === 0) {
       setError('Title and content are required');
       return;
     }
@@ -93,7 +93,7 @@ const PostForm = () => {
               required
               placeholder=" "
             />
-            <label>Content (HTML allowed)</label>
+            <label>Content (will be displayed exactly as pasted)</label>
           </div>
 
           <div className="input-group">

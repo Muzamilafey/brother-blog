@@ -57,10 +57,11 @@ const BlogSingle = () => {
           <div className="blog-cover placeholder">No Image</div>
         )}
 
-        <div
+        <pre
           className="blog-content"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
+        >
+          {post.content}
+        </pre>
 
         {post.tags?.length > 0 && (
           <p className="blog-tags">
