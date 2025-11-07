@@ -40,27 +40,65 @@ app.get("*", (req, res) => {
 // MongoDB connection + start server
 const PORT = process.env.PORT || 5000;
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    const server = app.listen(PORT, () => {
-      console.log(`✅ Server running on http://localhost:${PORT}`);
-    });
+// Function to connect to MongoDB
+const connectDB = async () => {
+  try {
+    if (!process.env.MONGO_URI) {
+      throw new Error("MongoDB URI not found in environment variables");
+    }
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ MongoDB Connected Successfully");
+    return true;
+  } catch (err) {
+    console.error("❌ MongoDB connection error:", err.message);
+    return false;
+  }
+};
 
-    // Handle server 'error' events (e.g., EADDRINUSE)
-    server.on("error", (err) => {
-      if (err && err.code === "EADDRINUSE") {
-        console.error(`❌ Port ${PORT} already in use. Exiting.`);
-        // Exit with non-zero code so process managers detect failure
-        process.exit(1);
-      }
-      console.error("❌ Server error:", err);
-      process.exit(1);
-    });
-  })
-  .catch((err) => {
-    console.error("❌ MongoDB connection error:", err);
+// Start server only if DB connection is successful
+const startServer = async () => {
+  const isConnected = await connectDB();
+  
+  if (!isConnected) {
+    console.error("❌ Server startup failed: Could not connect to MongoDB");
+    process.exit(1);
+  }
+
+  const server = app.listen(PORT, () => {
+    console.log(`✅ Server running on http://localhost:${PORT}`);
   });
+
+  // Handle server 'error' events (e.g., EADDRINUSE)
+  server.on("error", (err) => {
+    if (err && err.code === "EADDRINUSE") {
+      console.error(`❌ Port ${PORT} already in use. Exiting.`);
+      process.exit(1);
+    }
+    console.error("❌ Server error:", err);
+    process.exit(1);
+  });
+
+  // Handle process termination
+  const gracefulShutdown = () => {
+    console.log("🛑 Received shutdown signal. Closing server and database connections...");
+    server.close(() => {
+      mongoose.connection.close(false, () => {
+        console.log("✅ Server and database connections closed");
+        process.exit(0);
+      });
+    });
+  };
+
+  // Listen for termination signals
+  process.on("SIGTERM", gracefulShutdown);
+  process.on("SIGINT", gracefulShutdown);
+};
+
+// Start the application
+startServer().catch(err => {
+  console.error("❌ Fatal error during startup:", err);
+  process.exit(1);
+});
 
 // Graceful logging for uncaught exceptions / unhandled rejections
 process.on("uncaughtException", (err) => {
