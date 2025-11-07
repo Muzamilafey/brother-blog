@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../assets/logo.png";
 
@@ -25,8 +26,12 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
 
           {/* Blogs Dropdown */}
           <li
@@ -35,22 +40,34 @@ const Navbar = () => {
             onMouseLeave={() => setBlogDropdown(false)}
             onClick={() => setBlogDropdown(!blogDropdown)} // toggle for mobile
           >
-            <a href="/blogs">
+            <Link to="/blogs">
               Blogs <span className="arrow">▾</span>
-            </a>
+            </Link>
             <ul className={`dropdown-menu ${blogDropdown ? "show" : ""}`}>
-              <li><a href="/blogs?category=agriculture">Agriculture</a></li>
-              <li><a href="/blogs?category=technology">Technology</a></li>
-              <li><a href="/blogs?category=education">Education</a></li>
+              <li>
+                <Link to="/blogs?category=agriculture">Agriculture</Link>
+              </li>
+              <li>
+                <Link to="/blogs?category=technology">Technology</Link>
+              </li>
+              <li>
+                <Link to="/blogs?category=education">Education</Link>
+              </li>
             </ul>
           </li>
 
-          <li><a href="/contact">Contact</a></li>
+          <li>
+            <Link to="/contact">Contact</Link>
+          </li>
 
           {/* NEW Donate Link */}
-          <li><a href="/donate">Donate</a></li>
+          <li>
+            <Link to="/donate">Donate</Link>
+          </li>
 
-          <li><a href="/admin/login">Admin</a></li>
+          <li>
+            <Link to="/admin/login">Admin</Link>
+          </li>
         </ul>
       </div>
     </nav>

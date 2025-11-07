@@ -49,7 +49,7 @@ const BlogSingle = () => {
 
         {post.coverImage ? (
           <img
-            src={`http://localhost:5000${post.coverImage}`}
+            src={`https://brother-blog.onrender.com${post.coverImage}`}
             alt={post.title}
             className="blog-cover"
           />
@@ -77,7 +77,7 @@ const BlogSingle = () => {
             <li key={p._id} className="other-post-item">
               {p.coverImage && (
                 <img
-                  src={`http://localhost:5000${p.coverImage}`}
+                  src={`https://brother-blog.onrender.com${p.coverImage}`}
                   alt={p.title}
                   className="other-post-thumb"
                 />

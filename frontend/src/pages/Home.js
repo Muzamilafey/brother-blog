@@ -28,7 +28,7 @@ const Home = () => {
         <section className="hero-featured">
           {posts[0].coverImage ? (
             <img
-              src={`http://localhost:5000${posts[0].coverImage}`} // ✅ corrected
+              src={`https://brother-blog.onrender.com${posts[0].coverImage}`} // ✅ corrected
               alt={posts[0].title}
               className="hero-image"
             />
@@ -49,9 +49,9 @@ const Home = () => {
         <div className="main-feed">
           {posts.slice(1).map((post) => (
             <div key={post._id} className="post-card">
-              {post.coverImage ? (
+                {post.coverImage ? (
                 <img
-                  src={`http://localhost:5000${post.coverImage}`} // ✅ corrected
+                  src={`https://brother-blog.onrender.com${post.coverImage}`} // ✅ corrected
                   alt={post.title}
                   className="post-thumb"
                 />
@@ -80,13 +80,13 @@ const Home = () => {
             {trending.map((post, index) => (
               <li key={post._id} className="trending-item">
                 <span className="trending-number">{index + 1}</span>
-                {post.coverImage && (
-                  <img
-                    src={`http://localhost:5000${post.coverImage}`} // ✅ corrected
-                    alt={post.title}
-                    className="trending-thumb"
-                  />
-                )}
+                  {post.coverImage && (
+                    <img
+                      src={`https://brother-blog.onrender.com${post.coverImage}`} // ✅ corrected
+                      alt={post.title}
+                      className="trending-thumb"
+                    />
+                  )}
                 <Link to={`/blogs/${post._id}`} className="trending-link">
                   {post.title.length > 50
                     ? post.title.substring(0, 50) + "..."

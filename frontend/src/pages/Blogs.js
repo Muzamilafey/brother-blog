@@ -26,7 +26,7 @@ const Blogs = () => {
             {post.coverImage ? (
               <div className="blog-thumb-container">
                 <img
-                  src={`http://localhost:5000${post.coverImage}`} // ✅ corrected
+                  src={`https://brother-blog.onrender.com${post.coverImage}`} // ✅ corrected
                   alt={post.title}
                   className="blog-thumb"
                 />
