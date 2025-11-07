@@ -25,17 +25,22 @@ const transporter = nodemailer.createTransport({
 // REGISTER
 // ----------------------
 router.post("/register", async (req, res) => {
-  const { username, email, password, isAdmin } = req.body;
-  if (!username || !email || !password) {
-    return res.status(400).json({ message: "All fields are required" });
+  const { email, password, username, isAdmin } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
   }
 
   try {
-    const existingUser = await User.findOne({ username });
-    if (existingUser) return res.status(400).json({ message: "Username already exists" });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) return res.status(400).json({ message: "Email already exists" });
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = new User({ username, email, passwordHash, isAdmin: !!isAdmin });
+    const user = new User({ 
+      email, 
+      passwordHash, 
+      username: username || email.split('@')[0], // Use email username as default if no username provided
+      isAdmin: !!isAdmin 
+    });
     await user.save();
 
     res.status(201).json({ message: "User created successfully" });
@@ -49,15 +54,32 @@ router.post("/register", async (req, res) => {
 // LOGIN
 // ----------------------
 router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) return res.status(400).json({ message: "All fields are required" });
+  const { email, password } = req.body;
+  if (!email || !password) return res.status(400).json({ message: "All fields are required" });
 
   try {
-    const user = await User.findOne({ username });
-    if (!user) return res.status(400).json({ message: "Invalid username or password" });
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: "Invalid email or password" });
 
-    const isMatch = await bcrypt.compare(password, user.passwordHash);
-    if (!isMatch) return res.status(400).json({ message: "Invalid username or password" });
+    // For admin login, check against environment variables
+    if (user.isAdmin) {
+      if (email !== process.env.ADMIN_EMAIL) {
+        return res.status(400).json({ message: "Invalid email or password" });
+      }
+
+      // For admin, we'll hash the environment password and compare
+      const adminPasswordHash = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+      const isMatch = await bcrypt.compare(password, adminPasswordHash);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Invalid email or password" });
+      }
+    } else {
+      // For non-admin users, check against stored password hash
+      const isMatch = await bcrypt.compare(password, user.passwordHash);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Invalid email or password" });
+      }
+    }
 
     const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
       expiresIn: "1d",
